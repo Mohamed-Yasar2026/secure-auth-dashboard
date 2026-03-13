@@ -1,0 +1,427 @@
+/* ============================================================
+   loader.css — SecureAuth Loading Overlay
+   Supports: loader-widget HTML (orbit + wave + steps)
+   ============================================================ */
+
+/* ── OVERLAY ── */
+.loader-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: rgba(238, 241, 248, 0.92);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+    opacity: 1;
+    transition: opacity .4s ease, visibility .4s ease;
+}
+
+.loader-overlay.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+/* Decorative blobs */
+.loader-overlay::before {
+    content: '';
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(43, 184, 160, .10) 0%, transparent 70%);
+    top: -120px;
+    right: -120px;
+    pointer-events: none;
+    animation: loaderBlobPulse 4s ease-in-out infinite;
+}
+
+.loader-overlay::after {
+    content: '';
+    position: absolute;
+    width: 350px;
+    height: 350px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(100, 180, 255, .07) 0%, transparent 70%);
+    bottom: -80px;
+    left: -60px;
+    pointer-events: none;
+    animation: loaderBlobPulse 4s ease-in-out infinite reverse;
+}
+
+/* ── WIDGET CONTAINER ── */
+.loader-widget {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 28px;
+}
+
+/* ============================================================
+   ORBIT SYSTEM
+   ============================================================ */
+.loader-orbit {
+    position: relative;
+    width: 96px;
+    height: 96px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Pulsing background rings (old loader aesthetic) */
+.loader-orbit::before,
+.loader-orbit::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    border: 2px solid rgba(43, 184, 160, .25);
+    animation: loaderRing 2s ease-out infinite;
+}
+
+.loader-orbit::before {
+    width: 96px;
+    height: 96px;
+    animation-delay: 0s;
+}
+
+.loader-orbit::after {
+    width: 124px;
+    height: 124px;
+    animation-delay: .45s;
+}
+
+/* Spinning rings */
+.loader-ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 2px solid transparent;
+}
+
+.loader-ring-1 {
+    width: 96px;
+    height: 96px;
+    border-top-color: #2bb8a0;
+    border-right-color: rgba(43, 184, 160, .2);
+    animation: loaderSpin 1.2s linear infinite;
+}
+
+.loader-ring-2 {
+    width: 72px;
+    height: 72px;
+    border-bottom-color: #1e9e88;
+    border-left-color: rgba(30, 158, 136, .15);
+    animation: loaderSpin 1.8s linear infinite reverse;
+}
+
+/* Shield core (old loader icon aesthetic) */
+.loader-core {
+    width: 54px;
+    height: 54px;
+    background: linear-gradient(135deg, #2bb8a0, #1e9e88);
+    border-radius: 16px;
+    display: grid;
+    place-items: center;
+    box-shadow:
+        0 8px 24px rgba(43, 184, 160, .35),
+        0 0 0 3px rgba(43, 184, 160, .15);
+    animation: loaderIconPulse 2s ease-in-out infinite;
+    position: relative;
+    z-index: 1;
+}
+
+/* ============================================================
+   WAVE BARS
+   ============================================================ */
+.loader-wave {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    height: 32px;
+}
+
+.loader-wave-bar {
+    width: 4px;
+    border-radius: 4px;
+    background: linear-gradient(180deg, #2bb8a0, #5dd6c3);
+    animation: loaderWave 1s ease-in-out infinite;
+}
+
+.loader-wave-bar:nth-child(1) {
+    animation-delay: 0s;
+}
+
+.loader-wave-bar:nth-child(2) {
+    animation-delay: .1s;
+}
+
+.loader-wave-bar:nth-child(3) {
+    animation-delay: .2s;
+}
+
+.loader-wave-bar:nth-child(4) {
+    animation-delay: .3s;
+}
+
+.loader-wave-bar:nth-child(5) {
+    animation-delay: .4s;
+}
+
+.loader-wave-bar:nth-child(6) {
+    animation-delay: .35s;
+}
+
+.loader-wave-bar:nth-child(7) {
+    animation-delay: .25s;
+}
+
+.loader-wave-bar:nth-child(8) {
+    animation-delay: .15s;
+}
+
+.loader-wave-bar:nth-child(9) {
+    animation-delay: .05s;
+}
+
+.loader-wave-bar:nth-child(10) {
+    animation-delay: .45s;
+}
+
+/* ============================================================
+   TEXT GROUP
+   ============================================================ */
+.loader-text-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+.loader-title {
+    font-family: 'Nunito', sans-serif;
+    font-size: 1rem;
+    font-weight: 800;
+    color: #1a2236;
+    letter-spacing: .06em;
+    animation: loaderTextFade 2.5s ease-in-out infinite;
+}
+
+.loader-msg {
+    font-family: 'Nunito', sans-serif;
+    font-size: .75rem;
+    font-weight: 700;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: #8896af;
+    min-height: 1.2em;
+    animation: loaderTextFade 1.6s ease-in-out infinite;
+}
+
+/* ============================================================
+   STEP PROGRESS TRACK
+   ============================================================ */
+.loader-steps {
+    display: flex;
+    align-items: center;
+}
+
+.loader-step {
+    display: flex;
+    align-items: center;
+}
+
+/* Dots */
+.loader-step-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #e4e9f2;
+    border: 2px solid #c8d0df;
+    transition: background .35s ease, border-color .35s ease, box-shadow .35s ease;
+}
+
+.loader-step-dot.active {
+    background: #2bb8a0;
+    border-color: #2bb8a0;
+    box-shadow: 0 0 0 4px rgba(43, 184, 160, .2);
+}
+
+.loader-step-dot.done {
+    background: #1e9e88;
+    border-color: #1e9e88;
+    box-shadow: none;
+}
+
+/* Connecting lines */
+.loader-step-line {
+    width: 40px;
+    height: 2px;
+    background: #e4e9f2;
+    border-radius: 2px;
+    overflow: hidden;
+    position: relative;
+    margin: 0 4px;
+}
+
+.loader-step-line::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #2bb8a0, #1e9e88);
+    border-radius: 2px;
+    transition: width .4s ease;
+}
+
+.loader-step-line.done::after {
+    width: 100%;
+}
+
+/* ============================================================
+   BUTTON LOADING STATE
+   ============================================================ */
+.btn-totp .btn-text {
+    display: inline-flex;
+    align-items: center;
+}
+
+.btn-totp .spinner {
+    display: none;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, .35);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: loaderSpin .65s linear infinite;
+}
+
+.btn-totp.loading .btn-text {
+    display: none;
+}
+
+.btn-totp.loading .spinner {
+    display: block;
+}
+
+.btn-totp.loading {
+    opacity: .85;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* ============================================================
+   KEYFRAMES
+   ============================================================ */
+@keyframes loaderSpin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes loaderRing {
+    0% {
+        transform: scale(.8);
+        opacity: .8;
+    }
+
+    100% {
+        transform: scale(1.6);
+        opacity: 0;
+    }
+}
+
+@keyframes loaderIconPulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+        box-shadow: 0 8px 24px rgba(43, 184, 160, .35), 0 0 0 3px rgba(43, 184, 160, .15);
+    }
+
+    50% {
+        transform: scale(1.06);
+        box-shadow: 0 12px 32px rgba(43, 184, 160, .45), 0 0 0 6px rgba(43, 184, 160, .10);
+    }
+}
+
+@keyframes loaderWave {
+
+    0%,
+    100% {
+        height: 6px;
+        opacity: .5;
+    }
+
+    50% {
+        height: 28px;
+        opacity: 1;
+    }
+}
+
+@keyframes loaderTextFade {
+
+    0%,
+    100% {
+        opacity: .5;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+@keyframes loaderBlobPulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scale(1.1);
+        opacity: .7;
+    }
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 480px) {
+    .loader-orbit {
+        width: 80px;
+        height: 80px;
+    }
+
+    .loader-ring-1 {
+        width: 80px;
+        height: 80px;
+    }
+
+    .loader-ring-2 {
+        width: 60px;
+        height: 60px;
+    }
+
+    .loader-core {
+        width: 44px;
+        height: 44px;
+        border-radius: 13px;
+    }
+
+    .loader-step-line {
+        width: 28px;
+    }
+
+    .loader-title {
+        font-size: .9rem;
+    }
+}

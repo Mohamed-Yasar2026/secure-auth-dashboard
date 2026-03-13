@@ -1,0 +1,984 @@
+/* ============================================================
+   totp.css  —  Shared styles: enable_totp & totp_challenge
+   SecureAuth · Light Teal Theme
+   ============================================================ */
+
+:root {
+    --bg: #eef1f8;
+    --white: #ffffff;
+    --teal: #2bb8a0;
+    --teal-dark: #1e9e88;
+    --teal-deep: #197a6a;
+    --teal-soft: rgba(43, 184, 160, .10);
+    --teal-mid: rgba(43, 184, 160, .20);
+    --gray-100: #f4f6fb;
+    --gray-200: #e4e9f2;
+    --gray-300: #c8d0df;
+    --gray-400: #a0aec0;
+    --gray-500: #8896af;
+    --gray-700: #4a5568;
+    --text: #1a2236;
+    --danger: #e05555;
+    --danger-soft: rgba(224, 85, 85, .10);
+    --radius: 12px;
+    --shadow: 0 4px 24px rgba(0, 0, 0, .07);
+    --shadow-lg: 0 20px 60px rgba(30, 158, 136, .12), 0 4px 16px rgba(0, 0, 0, .06);
+}
+
+* {
+    font-family: 'Montserrat', sans-serif;
+}
+
+/* ── Background decorative blobs ── */
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    background:
+        radial-gradient(ellipse 700px 500px at 80% 0%, rgba(43, 184, 160, .11) 0%, transparent 70%),
+        radial-gradient(ellipse 400px 400px at 5% 100%, rgba(43, 184, 160, .07) 0%, transparent 70%),
+        radial-gradient(ellipse 300px 300px at 60% 80%, rgba(100, 180, 255, .06) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    background-image: radial-gradient(circle, rgba(43, 184, 160, .10) 1px, transparent 1px);
+    background-size: 28px 28px;
+    pointer-events: none;
+}
+
+/* ============================================================
+   STAGE  —  totp_challenge (centers single card vertically)
+   ============================================================ */
+.totp-stage {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+}
+
+/* ============================================================
+   MAIN WRAPPER  —  enable_totp
+   ============================================================ */
+.totp-main {
+    position: relative;
+    z-index: 1;
+    max-width: 940px;
+    margin: 0 auto;
+    padding: 44px 24px 80px;
+}
+
+/* ============================================================
+   PAGE HEADER  —  enable_totp
+   ============================================================ */
+.page-header {
+    margin-bottom: 32px;
+    opacity: 0;
+    animation: fadeUp .6s ease .1s forwards;
+}
+
+.page-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--teal-soft);
+    border: 1px solid rgba(43, 184, 160, .25);
+    border-radius: 20px;
+    padding: 4px 13px;
+    font-size: .68rem;
+    font-weight: 700;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--teal-dark);
+    margin-bottom: 12px;
+}
+
+.page-title {
+    font-size: 1.9rem;
+    font-weight: 800;
+    color: var(--text);
+    line-height: 1.2;
+}
+
+.page-sub {
+    color: var(--gray-500);
+    font-size: .85rem;
+    margin-top: 7px;
+    line-height: 1.6;
+}
+
+/* ============================================================
+   FLASH MESSAGES  —  shared
+   ============================================================ */
+.flash {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 12px 15px;
+    border-radius: 10px;
+    border: 1px solid transparent;
+    margin-bottom: 22px;
+    font-size: .8rem;
+    font-weight: 600;
+    animation: alertIn .3s ease;
+}
+
+.flash.error {
+    background: var(--danger-soft);
+    border-color: rgba(224, 85, 85, .25);
+    color: var(--danger);
+}
+
+.flash.success {
+    background: var(--teal-soft);
+    border-color: rgba(43, 184, 160, .3);
+    color: var(--teal-dark);
+}
+
+/* ============================================================
+   SETUP GRID  —  enable_totp
+   ============================================================ */
+.setup-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+/* ============================================================
+   CARDS  —  shared
+   ============================================================ */
+.totp-card {
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    opacity: 0;
+}
+
+/* Grid stagger (enable_totp) */
+.setup-grid .totp-card:nth-child(1) {
+    animation: fadeUp .6s ease .2s forwards;
+}
+
+.setup-grid .totp-card:nth-child(2) {
+    animation: fadeUp .6s ease .3s forwards;
+}
+
+.setup-grid .totp-card:nth-child(3) {
+    animation: fadeUp .6s ease .4s forwards;
+}
+
+.totp-card.full-width {
+    grid-column: 1 / -1;
+}
+
+/* Single centered card (totp_challenge) */
+.totp-stage .totp-card {
+    width: 100%;
+    max-width: 480px;
+    border-radius: 24px;
+    box-shadow: var(--shadow-lg);
+    animation: cardIn .65s cubic-bezier(.22, .61, .36, 1) .1s forwards;
+}
+
+/* Top accent bar */
+.card-accent {
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--teal), var(--teal-dark), transparent);
+}
+
+.card-body {
+    padding: 28px;
+}
+
+.challenge-body {
+    padding: 32px 36px 30px;
+}
+
+.card-section-label {
+    font-size: .67rem;
+    font-weight: 700;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 4px;
+}
+
+.card-section-title {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: var(--text);
+    margin-bottom: 18px;
+}
+
+/* ============================================================
+   CARD HERO  —  totp_challenge
+   ============================================================ */
+.card-hero {
+    background: linear-gradient(135deg, var(--teal) 0%, var(--teal-dark) 60%, var(--teal-deep) 100%);
+    padding: 36px 36px 42px;
+    position: relative;
+    overflow: hidden;
+}
+
+.card-hero::before {
+    content: '';
+    position: absolute;
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, .12);
+    top: -70px;
+    right: -60px;
+}
+
+.card-hero::after {
+    content: '';
+    position: absolute;
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, .08);
+    bottom: -50px;
+    left: 30px;
+}
+
+.hero-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 28px;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: rgba(255, 255, 255, .9);
+    font-weight: 700;
+    font-size: .85rem;
+    letter-spacing: .04em;
+}
+
+.brand-shield {
+    width: 32px;
+    height: 32px;
+    background: rgba(255, 255, 255, .2);
+    border-radius: 9px;
+    display: grid;
+    place-items: center;
+    backdrop-filter: blur(4px);
+}
+
+.hero-steps {
+    display: flex;
+    align-items: center;
+}
+
+.step-dot {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-size: .65rem;
+    font-weight: 700;
+    transition: all .3s;
+}
+
+.step-dot.done {
+    background: rgba(255, 255, 255, .9);
+    color: var(--teal);
+}
+
+.step-dot.active {
+    background: var(--white);
+    color: var(--teal);
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, .3);
+}
+
+.step-dot.pending {
+    background: rgba(255, 255, 255, .2);
+    color: rgba(255, 255, 255, .6);
+}
+
+.step-line {
+    width: 28px;
+    height: 1.5px;
+    background: rgba(255, 255, 255, .2);
+}
+
+.step-line.done {
+    background: rgba(255, 255, 255, .7);
+}
+
+.hero-body {
+    position: relative;
+    z-index: 1;
+}
+
+.hero-label {
+    font-size: .68rem;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, .65);
+    margin-bottom: 6px;
+}
+
+.hero-title {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: #fff;
+    line-height: 1.2;
+    margin-bottom: 8px;
+}
+
+.hero-sub {
+    font-size: .8rem;
+    color: rgba(255, 255, 255, .72);
+    line-height: 1.65;
+    max-width: 320px;
+}
+
+/* ============================================================
+   TIMER  —  totp_challenge
+   ============================================================ */
+.timer-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.timer-label {
+    font-size: .72rem;
+    color: var(--gray-500);
+    font-weight: 600;
+    letter-spacing: .04em;
+}
+
+.timer-badge {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: .72rem;
+    font-weight: 700;
+    color: var(--teal);
+    background: var(--teal-soft);
+    padding: 3px 10px;
+    border-radius: 20px;
+    transition: color .3s, background .3s;
+}
+
+.timer-badge.warn {
+    color: var(--danger);
+    background: var(--danger-soft);
+}
+
+.timer-track {
+    height: 5px;
+    background: var(--gray-200);
+    border-radius: 5px;
+    overflow: hidden;
+    margin-bottom: 26px;
+}
+
+.timer-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--teal), var(--teal-dark));
+    border-radius: 5px;
+    transition: width 1s linear, background .4s;
+}
+
+.timer-fill.warn {
+    background: linear-gradient(90deg, #f7a155, var(--danger));
+}
+
+/* ============================================================
+   QR CODE  —  enable_totp
+   ============================================================ */
+.qr-wrapper {
+    display: flex;
+    justify-content: center;
+    margin: 16px 0;
+}
+
+.qr-frame {
+    padding: 14px;
+    background: var(--white);
+    border: 2px solid var(--gray-200);
+    border-radius: 16px;
+    display: inline-block;
+    position: relative;
+    box-shadow: 0 8px 28px rgba(43, 184, 160, .12);
+}
+
+.qr-frame img {
+    display: block;
+    width: 164px;
+    height: 164px;
+    border-radius: 6px;
+}
+
+.qr-frame::before,
+.qr-frame::after,
+.qr-corner-bl,
+.qr-corner-br {
+    content: '';
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    border-color: var(--teal);
+    border-style: solid;
+}
+
+.qr-frame::before {
+    top: -3px;
+    left: -3px;
+    border-width: 3px 0 0 3px;
+    border-radius: 3px 0 0 0;
+}
+
+.qr-frame::after {
+    top: -3px;
+    right: -3px;
+    border-width: 3px 3px 0 0;
+    border-radius: 0 3px 0 0;
+}
+
+.qr-corner-bl {
+    bottom: -3px;
+    left: -3px;
+    border-width: 0 0 3px 3px;
+    border-radius: 0 0 0 3px;
+}
+
+.qr-corner-br {
+    bottom: -3px;
+    right: -3px;
+    border-width: 0 3px 3px 0;
+    border-radius: 0 0 3px 0;
+}
+
+.qr-hint {
+    text-align: center;
+    color: var(--gray-400);
+    font-size: .73rem;
+    font-weight: 600;
+    margin-top: 12px;
+}
+
+/* ============================================================
+   INSTRUCTION STEPS  —  enable_totp
+   ============================================================ */
+.install-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.step {
+    display: flex;
+    gap: 13px;
+    align-items: flex-start;
+}
+
+.step-num {
+    flex-shrink: 0;
+    width: 26px;
+    height: 26px;
+    background: linear-gradient(135deg, var(--teal), var(--teal-dark));
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-size: .68rem;
+    font-weight: 800;
+    color: #fff;
+    box-shadow: 0 3px 8px rgba(43, 184, 160, .3);
+}
+
+.step-title {
+    font-size: .83rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 3px;
+}
+
+.step-desc {
+    font-size: .76rem;
+    color: var(--gray-500);
+    line-height: 1.6;
+}
+
+.app-badges {
+    display: flex;
+    gap: 7px;
+    margin-top: 8px;
+    flex-wrap: wrap;
+}
+
+.app-badge {
+    padding: 4px 11px;
+    background: var(--gray-100);
+    border: 1px solid var(--gray-200);
+    border-radius: 20px;
+    font-size: .68rem;
+    font-weight: 700;
+    color: var(--gray-700);
+}
+
+/* ============================================================
+   VERIFY LAYOUT  —  enable_totp card 3
+   ============================================================ */
+.verify-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 36px;
+    align-items: start;
+}
+
+/* ============================================================
+   6-DIGIT CODE INPUTS  —  shared
+   ============================================================ */
+.code-label {
+    display: block;
+    font-size: .72rem;
+    font-weight: 700;
+    color: var(--gray-500);
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+}
+
+.code-inputs {
+    display: flex;
+    gap: 9px;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.digit-input {
+    width: 100%;
+    max-width: 56px;
+    aspect-ratio: 1;
+    background: var(--gray-100);
+    border: 2px solid var(--gray-200);
+    border-radius: 14px;
+    color: var(--text);
+    /* font-family: 'Montserrat', sans-serif; */
+    font-size: 1.4rem;
+    font-weight: 500;
+    text-align: center;
+    outline: none;
+    transition: border-color .18s, box-shadow .18s, background .18s, transform .15s;
+    -moz-appearance: textfield;
+    caret-color: var(--teal);
+}
+
+.digit-input::-webkit-inner-spin-button,
+.digit-input::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+}
+
+.digit-input:focus {
+    border-color: var(--teal);
+    background: #fff;
+    box-shadow: 0 0 0 4px var(--teal-mid);
+    transform: translateY(-2px);
+}
+
+.digit-input.filled {
+    border-color: var(--teal);
+    background: var(--teal-soft);
+    color: var(--teal-dark);
+}
+
+.digit-input.invalid {
+    border-color: var(--danger);
+    background: var(--danger-soft);
+    box-shadow: 0 0 0 4px rgba(224, 85, 85, .12);
+    animation: shake .35s ease;
+}
+
+.sep {
+    display: flex;
+    align-items: center;
+    color: var(--gray-300);
+    font-size: 1.1rem;
+    padding-top: 2px;
+    flex-shrink: 0;
+    font-weight: 300;
+}
+
+/* ============================================================
+   BUTTONS  —  shared (prefixed to avoid Bootstrap conflicts)
+   ============================================================ */
+.btn-totp {
+    padding: 14px 20px;
+    background: linear-gradient(135deg, var(--teal), var(--teal-dark));
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    font-size: .85rem;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    box-shadow: 0 6px 20px rgba(43, 184, 160, .35);
+    position: relative;
+    overflow: hidden;
+    transition: transform .15s, box-shadow .2s, opacity .2s;
+    width: 100%;
+    text-decoration: none;
+}
+
+.btn-totp::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255, 255, 255, .15), transparent);
+    opacity: 0;
+    transition: opacity .2s;
+}
+
+.btn-totp:hover:not(:disabled)::before {
+    opacity: 1;
+}
+
+.btn-totp:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 28px rgba(43, 184, 160, .42);
+    color: #fff;
+}
+
+.btn-totp:active:not(:disabled) {
+    transform: scale(.99);
+}
+
+.btn-totp:disabled {
+    opacity: .45;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+.btn-totp .spinner {
+    display: none;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, .3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin .6s linear infinite;
+}
+
+.btn-totp.loading .btn-text {
+    display: none;
+}
+
+.btn-totp.loading .spinner {
+    display: block;
+}
+
+.btn-totp-ghost {
+    padding: 14px 18px;
+    background: var(--gray-100);
+    border: 1.5px solid var(--gray-200);
+    border-radius: 12px;
+    color: var(--gray-500);
+    font-size: .82rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: border-color .2s, color .2s, background .2s;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+
+.btn-totp-ghost:hover {
+    border-color: var(--gray-300);
+    color: var(--gray-700);
+    background: var(--gray-200);
+}
+
+/* Verify actions row */
+.verify-actions {
+    margin-top: 16px;
+    display: flex;
+    gap: 10px;
+}
+
+.verify-actions .btn-totp {
+    flex: 1;
+    width: auto;
+}
+
+/* ============================================================
+   NOTICE BOX  —  shared
+   ============================================================ */
+.notice {
+    margin-top: 16px;
+    padding: 13px 15px;
+    background: var(--teal-soft);
+    border: 1px solid rgba(43, 184, 160, .2);
+    border-radius: 10px;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+}
+
+.notice-icon {
+    color: var(--teal);
+    flex-shrink: 0;
+    margin-top: 1px;
+}
+
+.notice-text {
+    font-size: .73rem;
+    color: var(--gray-700);
+    line-height: 1.65;
+}
+
+/* ============================================================
+   INFO ROWS  —  enable_totp
+   ============================================================ */
+.info-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px 14px;
+    background: var(--gray-100);
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.info-row-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+}
+
+.info-row-icon.teal {
+    background: var(--teal-soft);
+    color: var(--teal);
+}
+
+.info-row-icon.warn {
+    background: rgba(247, 177, 85, .12);
+    color: #e69833;
+}
+
+.info-row-text {
+    font-size: .74rem;
+    color: var(--gray-700);
+    line-height: 1.6;
+}
+
+.info-row-text strong {
+    color: var(--text);
+}
+
+/* ============================================================
+   DIVIDER & FOOTER  —  totp_challenge
+   ============================================================ */
+.totp-divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 22px 0;
+    color: var(--gray-300);
+    font-size: .72rem;
+    font-weight: 600;
+    letter-spacing: .06em;
+}
+
+.totp-divider::before,
+.totp-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--gray-200);
+}
+
+.card-footer-totp {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+}
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--gray-500);
+    font-size: .78rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color .2s;
+}
+
+.back-link:hover {
+    color: var(--teal);
+}
+
+.help-box {
+    width: 100%;
+    background: var(--gray-100);
+    border-radius: 12px;
+    padding: 13px 16px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.help-icon {
+    width: 28px;
+    height: 28px;
+    background: var(--teal-soft);
+    border-radius: 8px;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    color: var(--teal);
+}
+
+.help-text {
+    font-size: .73rem;
+    color: var(--gray-500);
+    line-height: 1.6;
+}
+
+.help-text strong {
+    color: var(--gray-700);
+}
+
+/* ============================================================
+   ANIMATIONS
+   ============================================================ */
+@keyframes cardIn {
+    from {
+        opacity: 0;
+        transform: translateY(24px) scale(.97);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes alertIn {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes shake {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-5px);
+    }
+
+    75% {
+        transform: translateX(5px);
+    }
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 720px) {
+    .setup-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .totp-card.full-width {
+        grid-column: 1;
+    }
+
+    .verify-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .totp-main {
+        padding: 28px 16px 60px;
+    }
+
+    .page-title {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .card-hero {
+        padding: 26px 20px 32px;
+    }
+
+    .card-body,
+    .challenge-body {
+        padding: 24px 20px 22px;
+    }
+
+    .hero-title {
+        font-size: 1.3rem;
+    }
+
+    .digit-input {
+        font-size: 1.1rem;
+    }
+
+    .verify-actions {
+        flex-direction: column;
+    }
+
+    .btn-totp-ghost {
+        width: 100%;
+    }
+}

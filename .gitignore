@@ -1,0 +1,31 @@
+# ── Sensitive config (NEVER commit these) ──
+application/config/database.php
+application/config/config.php
+application/config/jwt.php
+
+# ── CodeIgniter cache & logs ──
+application/cache/*
+!application/cache/index.html
+application/logs/*
+!application/logs/index.html
+
+# ── Composer dependencies ──
+vendor/
+
+# ── Temp / dev files ──
+application/controllers/Auth_temp.php
+
+# ── OS files ──
+.DS_Store
+Thumbs.db
+
+# ── IDE files ──
+.idea/
+.vscode/
+*.sublime-workspace
+*.sublime-project
+/nbproject/
+
+# ── Tests ──
+/tests/tests/
+/tests/results/

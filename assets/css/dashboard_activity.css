@@ -1,0 +1,297 @@
+/* ============================================================
+   dashboard_activity.css
+   Login Activity table + Login Summary card
+   ============================================================ */
+
+/* ── Dashboard grid: activity left, summary right ── */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 24px;
+    align-items: start;
+    padding: 24px;
+}
+
+/* ============================================================
+   SHARED CARD BASE
+   ============================================================ */
+.dash-card {
+    background: #fff;
+    border: 1px solid #e4e9f2;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, .06);
+}
+
+.dash-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid #f0f3fa;
+}
+
+.dash-card-header h2 {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: #1a2236;
+    margin: 0;
+}
+
+/* ============================================================
+   ACTIVITY TABLE
+   ============================================================ */
+.activity-table-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.activity-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: .82rem;
+    min-width: 520px;
+}
+
+.activity-table thead tr {
+    background: #f8faff;
+    border-bottom: 1px solid #e4e9f2;
+}
+
+.activity-table thead th {
+    padding: 11px 16px;
+    font-size: .67rem;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: #8896af;
+    text-align: left;
+    white-space: nowrap;
+}
+
+.activity-table tbody tr {
+    border-bottom: 1px solid #f4f6fb;
+    transition: background .15s;
+}
+
+.activity-table tbody tr:last-child {
+    border-bottom: none;
+}
+
+.activity-table tbody tr:hover {
+    background: #f8faff;
+}
+
+.activity-table tbody td {
+    padding: 12px 16px;
+    vertical-align: middle;
+}
+
+/* User cell — name + email stacked */
+.activity-user-name {
+    font-size: .83rem;
+    font-weight: 700;
+    color: #1a2236;
+    display: block;
+    line-height: 1.3;
+}
+
+.activity-user-email {
+    font-size: .72rem;
+    color: #8896af;
+    display: block;
+    margin-top: 2px;
+}
+
+/* IP */
+.activity-ip {
+    font-family: 'DM Mono', 'Courier New', monospace;
+    font-size: .75rem;
+    color: #8896af;
+    background: #f4f6fb;
+    padding: 3px 8px;
+    border-radius: 6px;
+    white-space: nowrap;
+}
+
+/* Device — truncate hash, show readable part */
+.activity-device {
+    font-size: .75rem;
+    color: #a0aec0;
+    font-family: 'DM Mono', monospace;
+    max-width: 130px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: block;
+    cursor: default;
+}
+
+/* Time */
+.activity-time {
+    font-size: .74rem;
+    color: #a0aec0;
+    white-space: nowrap;
+}
+
+/* Status badges */
+.badge-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: .72rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.badge-status.success {
+    background: rgba(43, 184, 160, .10);
+    color: #1e9e88;
+    border: 1px solid rgba(43, 184, 160, .22);
+}
+
+.badge-status.failed {
+    background: rgba(224, 85, 85, .10);
+    color: #e05555;
+    border: 1px solid rgba(224, 85, 85, .22);
+}
+
+/* Record count pill */
+.activity-count {
+    font-size: .72rem;
+    font-weight: 700;
+    color: #8896af;
+    background: #f4f6fb;
+    border: 1px solid #e4e9f2;
+    border-radius: 20px;
+    padding: 3px 11px;
+}
+
+/* Empty / loading state */
+.activity-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 48px 20px;
+    color: #c8d0df;
+    font-size: .8rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+/* ============================================================
+   LOGIN SUMMARY CARD
+   ============================================================ */
+.summary-card {
+    display: flex;
+    flex-direction: column;
+}
+
+.summary-body {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Success / failed rate rows */
+.summary-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.summary-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.summary-stat-value {
+    font-size: 2rem;
+    font-weight: 800;
+    line-height: 1;
+    color: #1a2236;
+}
+
+.summary-stat-label {
+    font-size: .75rem;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+}
+
+.summary-stat-label.success {
+    color: #2bb8a0;
+}
+
+.summary-stat-label.failed {
+    color: #e05555;
+}
+
+/* Donut chart container */
+.summary-chart-wrap {
+    position: relative;
+    width: 100%;
+    max-width: 220px;
+    margin: 0 auto;
+}
+
+.summary-chart-wrap canvas {
+    width: 100% !important;
+    height: auto !important;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 1024px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .summary-card {
+        order: -1;
+        /* show summary above table on mobile */
+    }
+
+    .summary-body {
+        flex-direction: row;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 24px;
+    }
+
+    .summary-chart-wrap {
+        max-width: 160px;
+        margin: 0;
+    }
+}
+
+@media (max-width: 600px) {
+    .dashboard-grid {
+        padding: 16px;
+        gap: 16px;
+    }
+
+    .dash-card-header {
+        padding: 16px 16px 12px;
+    }
+
+    .activity-table tbody td,
+    .activity-table thead th {
+        padding: 10px 12px;
+    }
+
+    .summary-body {
+        flex-direction: column;
+    }
+
+    .summary-chart-wrap {
+        max-width: 180px;
+        margin: 0 auto;
+    }
+}
